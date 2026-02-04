@@ -1,5 +1,5 @@
 @extends('layouts.theme')
-
+@section('title','Starter Page')
 @section('content')
     {{--page title and optional buttons--}}
     <div class="nk-block-head nk-block-head-sm">

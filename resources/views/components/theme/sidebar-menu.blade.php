@@ -2,18 +2,9 @@
     <div class="nk-sidebar-content">
         <div class="nk-sidebar-menu" data-simplebar>
             <ul class="nk-menu">
-                <li class="nk-menu-heading">
-                    <h6 class="overline-title text-primary-alt">Use-Case Preview</h6>
-                </li>
-                <li class="nk-menu-item"><a href="copywriter/index.html" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-bag"></em></span><span class="nk-menu-text">AI Copywriter</span><span class="nk-menu-badge">HOT</span></a></li>
-                <li class="nk-menu-heading">
-                    <h6 class="overline-title text-primary-alt">Dashboards</h6>
-                </li>
-                <li class="nk-menu-item"><a href="index-2.html" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-presentation"></em></span><span class="nk-menu-text">Default Dashboard</span></a></li>
-                <li class="nk-menu-item"><a href="index-sales.html" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-cc-alt2"></em></span><span class="nk-menu-text">Sales Dashboard</span></a></li>
-                <li class="nk-menu-item"><a href="index-invest.html" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-coins"></em></span><span class="nk-menu-text">Invest Dashboard</span></a></li>
-                <li class="nk-menu-item"><a href="index-crypto.html" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-bitcoin-cash"></em></span><span class="nk-menu-text">Crypto Dashboard</span></a></li>
-                <li class="nk-menu-item"><a href="index-analytics.html" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-growth"></em></span><span class="nk-menu-text">Analytics Dashboard</span></a></li>
+                @unlessrole('moderator|observer')
+                <li class="nk-menu-item"><a href="{{route('dashboard')}}" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-presentation"></em></span><span class="nk-menu-text">Dashboard</span></a></li>
+                @endrole
                 <li class="nk-menu-heading">
                     <h6 class="overline-title text-primary-alt">Applications</h6>
                 </li>

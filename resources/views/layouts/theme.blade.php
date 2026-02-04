@@ -3,9 +3,9 @@
 <head> <meta charset="utf-8">
     <meta name="author" content="Mugdha Saha">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="A powerful and conceptual apps base dashboard template that especially build for developers and programmers.">
+    <meta name="description" content="">
     <link rel="shortcut icon" href="{{asset('images/favicon.png')}}">
-    <title>Account Management | Demo </title>
+    <title>@yield('title') - Account Management</title>
     <link rel="stylesheet" href="{{asset('assets/css/dashlite9b70.css?ver=3.3.0')}}">
     <link id="skin-default" rel="stylesheet" href="{{asset('assets/css/theme9b70.css?ver=3.3.0')}}">
 </head>
