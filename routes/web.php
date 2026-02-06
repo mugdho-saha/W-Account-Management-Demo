@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CategoryController;
 
 Route::get('/', function () {
     return redirect()->route('login');
@@ -16,6 +18,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/dashboard', function () {
             return view('dashboard');
         })->name('dashboard');
+        Route::get('/users', [UserController::class, 'index'])->name('users.index');
+
+        /*category routes*/
+        Route::get('/category',[CategoryController::class, 'index'])->name('category.index');
+        Route::post('/category',[CategoryController::class, 'store'])->name('category.store');
+        Route::get('/category/edit/{category}',[CategoryController::class, 'edit'])->name('category.edit');
+        Route::put('/category/edit/{category}',[CategoryController::class, 'update'])->name('category.update');
+        Route::delete('/category/delete/{category}',[CategoryController::class, 'destroy'])->name('category.destroy');
     });
 
     // Level 2: Only Moderators can enter here
