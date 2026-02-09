@@ -25,6 +25,18 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="form-label">Select Type</label>
+                            <div class="form-control-wrap">
+                                <select class="form-select js-select2" name="type" required>
+                                    <option value="Asset" @if($category->type == 'Asset') selected @endif>Asset</option>
+                                    <option value="Liability" @if($category->type == 'Liability') selected @endif>Liability</option>
+                                    <option value="Equity" @if($category->type == 'Equity') selected @endif>Equity</option>
+                                    <option value="Income" @if($category->type == 'Income') selected @endif>Income</option>
+                                    <option value="Expense" @if($category->type == 'Expense') selected @endif>Expense</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="form-label">Select Status</label>
                             <div class="form-control-wrap">
                                 <select class="form-select js-select2" name="status" required>

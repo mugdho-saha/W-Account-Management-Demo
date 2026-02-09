@@ -5,10 +5,11 @@
                 @role('admin')
                 <li class="nk-menu-item"><a href="{{route('dashboard')}}" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-presentation"></em></span><span class="nk-menu-text">Dashboard</span></a></li>
                 <li class="nk-menu-item"><a href="{{route('users.index')}}" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-users"></em></span><span class="nk-menu-text">Users</span></a></li>
+                <li class="nk-menu-item"><a href="{{route('category.index')}}" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-tile-thumb"></em></span><span class="nk-menu-text">Categories</span></a></li>
                 @endrole
 
                 @role('admin|moderator')
-                <li class="nk-menu-item"><a href="{{route('category.index')}}" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-tile-thumb"></em></span><span class="nk-menu-text">Categories</span></a></li>
+                <li class="nk-menu-item"><a href="{{route('transactions.index')}}" class="nk-menu-link"><span class="nk-menu-icon"><em class="icon ni ni-tranx"></em></span><span class="nk-menu-text">Transactions</span></a></li>
                 @endrole
 
 

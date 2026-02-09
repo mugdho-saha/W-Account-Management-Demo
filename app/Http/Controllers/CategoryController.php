@@ -15,6 +15,7 @@ class CategoryController extends Controller
     public function store(Request $request){
         $validated = $request->validate([
             'category_name' => 'required|string|max:255',
+            'type' => 'required|string|in:Asset,Liability,Equity,Income,Expense',
         ]);
         Category::create($validated);
         return redirect('/category')->with('success', 'Category created!');
@@ -28,6 +29,7 @@ class CategoryController extends Controller
         $validated = $request->validate([
             // The unique rule needs to ignore the current category_id
             'category_name' => 'required|string|max:255|unique:categories,category_name,' . $category->category_id . ',category_id',
+            'type' => 'required|string|in:Asset,Liability,Equity,Income,Expense',
             'status'        => 'required|in:active,inactive',
         ]);
 

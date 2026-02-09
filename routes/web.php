@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
@@ -35,8 +36,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/category/delete/{category}',[CategoryController::class, 'destroy'])->name('category.destroy');
     });
 
-    // Level 2: Only Moderators can enter here
-    Route::middleware(['role:moderator'])->group(function () {
+    // Level 2: Both Moderators and Admins can enter here
+    Route::middleware(['role:moderator|admin'])->group(function () {
+        /*Routes for transactions*/
+        Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
+        Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
 
     });
 

@@ -42,6 +42,18 @@
                             <label class="form-label" for="full-name">Category Name</label>
                             <div class="form-control-wrap"><input name="category_name" type="text" class="form-control" id="full-name" required></div>
                         </div>
+                        <div class="form-group">
+                            <label class="form-label">Select Type</label>
+                            <div class="form-control-wrap">
+                                <select class="form-select js-select2" name="type" required>
+                                    <option value="Asset">Asset</option>
+                                    <option value="Liability">Liability</option>
+                                    <option value="Equity">Equity</option>
+                                    <option value="Income">Income</option>
+                                    <option value="Expense">Expense</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group"><button type="submit" class="btn btn-lg btn-primary">Save Category</button></div>
                     </form>
                 </div>
@@ -68,6 +80,7 @@
                         <tr class="tb-tnx-head">
                             <th class="tb-tnx-id"><span class="">#</span></th>
                             <th class="tb-tnx-amount is-alt"><span class="tb-tnx-total">Category Name</span></th>
+                            <th class="tb-tnx-amount is-alt"><span class="tb-tnx-total">Category Type</span></th>
                             <th><span class="tb-tnx-status d-none d-md-inline-block">Status</span></th>
                             <th class="tb-tnx-action"><span>&nbsp;</span></th>
                         </tr>
@@ -77,6 +90,7 @@
                             <tr class="tb-tnx-item">
                                 <td class="tb-tnx-id"><a href="#"><span>{{$loop->iteration}}</span></a></td>
                                 <td class="tb-tnx-id"><a href="#"><span>{{$category->category_name}}</span></a></td>
+                                <td class="tb-tnx-id"><a href="#"><span>{{$category->type}}</span></a></td>
                                 <td class="tb-tnx-id">
                                     @if($category->status == 'active')
                                         <span><span class="badge badge-dot bg-success">Active</span></span>
