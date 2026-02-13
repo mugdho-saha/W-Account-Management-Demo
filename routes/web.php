@@ -16,9 +16,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Level 2: Only Admins can enter this specific group
     Route::middleware(['role:admin'])->group(function () {
-        Route::get('/dashboard', function () {
-            return view('dashboard');
-        })->name('dashboard');
+        Route::get('/dashboard', function () {return view('dashboard');})->name('dashboard');
 
         /*user routes*/
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
@@ -41,6 +39,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
         /*Routes for transactions*/
         Route::get('/transactions', [TransactionController::class, 'index'])->name('transactions.index');
         Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
+        Route::delete('/transactions/{transaction}', [TransactionController::class, 'destroy'])->name('transactions.destroy');
+        Route::get('/transactions/{transaction}/edit', [TransactionController::class, 'edit'])->name('transactions.edit');
+        Route::put('/transactions/{transaction}', [TransactionController::class, 'update'])->name('transactions.update');
 
     });
 

@@ -132,6 +132,9 @@
                             <th>Credit (To)</th>
                             <th>Amount</th>
                             <th>Posted By</th>
+                            <th class="tb-tnx-action">
+                                <span>Action</span>
+                            </th>
                         </tr>
                         </thead>
                         <tbody>
@@ -151,6 +154,26 @@
                                 </td>
                                 <td><strong>{{ number_format($tnx->amount, 2) }}</strong></td>
                                 <td><span class="dot dot-primary"></span> {{ $tnx->user->name }}</td>
+                                <td class="tb-tnx-action">
+                                    <div class="dropdown">
+                                        <a class="text-soft dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown"><em class="icon ni ni-more-h"></em></a>
+                                        <div class="dropdown-menu dropdown-menu-end dropdown-menu-xs">
+                                            <ul class="link-list-plain">
+                                                <li>
+                                                    <a href="{{ route('transactions.edit', $tnx->id) }}">
+                                                        <em class="icon ni ni-edit"></em><span>Edit</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0)" class="text-danger"
+                                                       onclick="genericDelete('{{ $tnx->id }}', 'Transaction #{{ $tnx->id }}', 'transaction')">
+                                                        <em class="icon ni ni-trash"></em><span>Delete</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </td>
                             </tr>
                         @endforeach
                         </tbody>
@@ -167,9 +190,9 @@
                 <div class="modal-body modal-body-lg text-center">
                     <div class="nk-modal">
                         <em class="nk-modal-icon icon icon-circle icon-circle-xxl ni ni-cross bg-danger"></em>
-                        <h4 class="nk-modal-title">Are you sure?</h4>
+                        <h4 class="nk-modal-title" id="modalTitle">Are you sure?</h4>
                         <div class="nk-modal-text">
-                            <p class="lead">You are about to delete <strong id="deleteCategoryName"></strong>. This action cannot be undone and may affect associated transactions.</p>
+                            <p class="lead">You are about to delete <strong id="itemName"></strong>. This action cannot be undone and may affect associated data.</p>
                         </div>
                         <div class="nk-modal-action mt-5">
                             <form id="deleteModalForm" method="POST">
@@ -186,16 +209,21 @@
     </div>
 
     <script>
-        function confirmDelete(category, name) {
-            // 1. Set the name in the modal text
-            document.getElementById('deleteCategoryName').innerText = name;
+        function genericDelete(id, name, type) {
+            // 1. Update the Display Name
+            document.getElementById('itemName').innerText = name;
 
-            // 2. Update the form action URL
-            let url = "{{ route('category.destroy', ':category') }}";
-            url = url.replace(':category', category);
+            // 2. Set the Title based on what we are deleting
+            document.getElementById('modalTitle').innerText = 'Delete ' + type.charAt(0).toUpperCase() + type.slice(1);
+
+            // 3. Construct the Route URL
+            // This assumes your routes are standard: transactions.destroy, users.destroy, etc.
+            let url = "{{ url('/') }}/" + type + "s/" + id;
+
+            // 4. Update the form action
             document.getElementById('deleteModalForm').setAttribute('action', url);
 
-            // 3. Show the modal using Bootstrap's JS (DashLite uses Bootstrap 5)
+            // 5. Show the modal
             let myModal = new bootstrap.Modal(document.getElementById('deleteModal'));
             myModal.show();
         }

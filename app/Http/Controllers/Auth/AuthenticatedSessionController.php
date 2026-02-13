@@ -28,7 +28,15 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // Custom Redirection Logic
+        $user = auth()->user();
+
+        if ($user->hasRole('moderator')) {
+            return redirect()->intended(route('transactions.index'));
+        }
+
+        // Admins and Observers go to the default dashboard
+        return redirect()->intended(route('dashboard'));
     }
 
     /**
