@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -16,8 +17,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Level 2: Only Admins can enter this specific group
     Route::middleware(['role:admin'])->group(function () {
-        Route::get('/dashboard', function () {return view('dashboard');})->name('dashboard');
-
         /*user routes*/
         Route::get('/users', [UserController::class, 'index'])->name('users.index');
         Route::post('/users', [UserController::class, 'store'])->name('users.store');
@@ -44,6 +43,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::put('/transactions/{transaction}', [TransactionController::class, 'update'])->name('transactions.update');
 
     });
+
+
+    /*level 3: Both admin and observer can enter here*/
+    Route::middleware(['role:admin|observer'])->group(function () {
+        /*dashboard route*/
+        Route::get('/dashboard', function () {return view('dashboard');})->name('dashboard');
+    });
+
+    /*reports route*/
+    Route::get('reports/datewise-report', [ReportController::class, 'datewiseReport'])->name('reports.datewise');
+    // The export route (handles both PDF and Excel via a 'type' parameter)
+    Route::get('/reports/daily/export', [ReportController::class, 'export'])
+        ->name('reports.datewise.export');
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
