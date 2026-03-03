@@ -20,7 +20,7 @@
                     <a href="#" class="nk-menu-link nk-menu-toggle"><span class="nk-menu-icon"><em class="icon ni ni-tile-thumb"></em></span><span class="nk-menu-text">Reports</span></a>
                     <ul class="nk-menu-sub">
                         <li class="nk-menu-item"><a href="{{route('reports.datewise')}}" class="nk-menu-link"><span class="nk-menu-text">Date-wise Report</span></a></li>
-                        <li class="nk-menu-item"><a href="#" class="nk-menu-link"><span class="nk-menu-text">Balance Sheet Report</span></a></li>
+                        <li class="nk-menu-item"><a href="{{route('reports.balancesheet')}}" class="nk-menu-link"><span class="nk-menu-text">Balance Sheet Report</span></a></li>
                     </ul>
                 </li>
                 @endrole

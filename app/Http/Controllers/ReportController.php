@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -51,5 +52,83 @@ class ReportController extends Controller
         }
 
         return back()->with('error', 'Invalid export type selected.');
+    }
+
+    public function balanceSheet(Request $request)
+    {
+        $as_of_date = $request->get('date', now()->format('Y-m-d'));
+
+        // 1. Fetch all categories with sums
+        $allCategories = Category::withSum(['debitTransactions as total_debit' => function($query) use ($as_of_date) {
+            $query->where('date', '<=', $as_of_date);
+        }], 'amount')
+            ->withSum(['creditTransactions as total_credit' => function($query) use ($as_of_date) {
+                $query->where('date', '<=', $as_of_date);
+            }], 'amount')
+            ->get();
+
+        // 2. Map balances and normalize types for filtering
+        $allCategories->transform(function($cat) {
+            $debit = $cat->total_debit ?? 0;
+            $credit = $cat->total_credit ?? 0;
+
+            // Normalize type to lowercase for logic checks
+            $type = strtolower(trim($cat->type));
+
+            // Logic: Assets = Debit - Credit | Liabilities/Equity = Credit - Debit
+            if ($type === 'asset') {
+                $cat->balance = $debit - $credit;
+            } else {
+                $cat->balance = $credit - $debit;
+            }
+            return $cat;
+        });
+
+        // 3. Filter using case-insensitive check
+        $assets = $allCategories->filter(fn($c) => strtolower(trim($c->type)) === 'asset');
+        $liabilities = $allCategories->filter(fn($c) => strtolower(trim($c->type)) === 'liability');
+        $equity = $allCategories->filter(fn($c) => strtolower(trim($c->type)) === 'equity');
+
+        // Diagnostic Check: If still empty, this will tell us exactly why
+        // return response()->json(['all' => $allCategories, 'assets' => $assets]);
+
+        return view('reports.balancesheet', compact('assets', 'liabilities', 'equity', 'as_of_date'));
+    }
+
+    public function exportBalanceSheet(Request $request)
+    {
+        $as_of_date = $request->get('date', now()->format('Y-m-d'));
+
+        // Re-use your logic to get $assets, $liabilities, and $equity
+        $allCategories = Category::withSum(['debitTransactions as total_debit' => function($query) use ($as_of_date) {
+            $query->where('date', '<=', $as_of_date);
+        }], 'amount')
+            ->withSum(['creditTransactions as total_credit' => function($query) use ($as_of_date) {
+                $query->where('date', '<=', $as_of_date);
+            }], 'amount')
+            ->get();
+
+        $allCategories->transform(function($cat) {
+            $debit = $cat->total_debit ?? 0;
+            $credit = $cat->total_credit ?? 0;
+            $type = strtolower(trim($cat->type));
+
+            if ($type === 'asset') {
+                $cat->balance = $debit - $credit;
+            } else {
+                $cat->balance = $credit - $debit;
+            }
+            return $cat;
+        });
+
+        $assets = $allCategories->filter(fn($c) => strtolower(trim($c->type)) === 'asset');
+        $liabilities = $allCategories->filter(fn($c) => strtolower(trim($c->type)) === 'liability');
+        $equity = $allCategories->filter(fn($c) => strtolower(trim($c->type)) === 'equity');
+
+        // Load a dedicated PDF view
+        $pdf = Pdf::loadView('reports.pdf_balancesheet', compact('assets', 'liabilities', 'equity', 'as_of_date'))
+            ->setPaper('a4', 'portrait');
+
+        return $pdf->download('Balance_Sheet_'.$as_of_date.'.pdf');
     }
 }

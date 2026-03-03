@@ -57,6 +57,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/reports/daily/export', [ReportController::class, 'export'])
         ->name('reports.datewise.export');
 
+    Route::get('/reports/balancesheet', [ReportController::class, 'balancesheet'])->name('reports.balancesheet');
+    Route::get('/reports/balancesheet/export', [ReportController::class, 'exportBalanceSheet'])->name('reports.balancesheet.export');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

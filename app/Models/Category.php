@@ -28,4 +28,14 @@ class Category extends Model
             ->dontSubmitEmptyLogs()                 // Don't save a log if the user just hit "Save" without changes
             ->useLogName('category');              // Optional: Groups these logs under 'category' in the DB
     }
+
+    public function debitTransactions()
+    {
+        return $this->hasMany(Transaction::class, 'debit_category_id', 'category_id');
+    }
+
+    public function creditTransactions()
+    {
+        return $this->hasMany(Transaction::class, 'credit_category_id', 'category_id');
+    }
 }
