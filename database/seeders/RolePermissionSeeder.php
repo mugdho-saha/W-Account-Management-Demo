@@ -13,8 +13,9 @@ class RolePermissionSeeder extends Seeder
      */
     public function run(): void
     {
-        Role::create(['name' => 'admin']);
-        Role::create(['name' => 'moderator']);
-        Role::create(['name' => 'observer']);
+        // Use firstOrCreate to prevent errors on multiple runs
+        Role::firstOrCreate(['name' => 'admin']);
+        Role::firstOrCreate(['name' => 'moderator']);
+        Role::firstOrCreate(['name' => 'observer']);
     }
 }

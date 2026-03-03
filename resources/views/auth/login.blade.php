@@ -18,6 +18,17 @@
                                         </div>
                                     </div>
                                 </div>
+                                @if ($errors->any())
+                                    <div class="alert alert-danger alert-icon">
+                                        <em class="icon ni ni-cross-circle"></em>
+                                        <strong>Login Failed!</strong>
+                                        <ul class="list list-sm list-checked">
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
                                 <form method="POST" action="{{ route('login') }}">
                                     @csrf
                                     <div class="form-group">
