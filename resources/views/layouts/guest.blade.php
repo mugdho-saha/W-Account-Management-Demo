@@ -14,5 +14,4 @@
     </body>
     <script src="{{asset('assets/js/bundle9b70.js')}}"></script>
     <script src="{{asset('assets/js/scripts9b70.js')}}"></script>
-    <script src="{{asset('assets/js/charts/gd-campaign9b70.js')}}"></script>
 </html>

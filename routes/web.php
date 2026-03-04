@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TransactionController;
@@ -48,7 +49,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     /*level 3: Both admin and observer can enter here*/
     Route::middleware(['role:admin|observer'])->group(function () {
         /*dashboard route*/
-        Route::get('/dashboard', function () {return view('dashboard');})->name('dashboard');
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     });
 
     /*reports route*/
